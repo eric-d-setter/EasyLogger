@@ -1,5 +1,8 @@
 package com.easylogger.log;
 
+import java.time.Instant;
+import java.util.Date;
+
 public class EasyLog {
 
     private static final String EMPTY = "";
@@ -135,9 +138,6 @@ public class EasyLog {
     }
 
     private static void log(Output output, String location, String prefix, String message) {
-        output.output.println(location + "|" + prefix + "|" + message);
+        output.output.println(Instant.now() + " | location:" + location.trim() + " | [" + prefix + "]--" + message);
     }
-
-
-
 }
