@@ -108,7 +108,7 @@ public class EasyLog {
      * @param logMessage User customizable message
      */
     public static void log(String logMessage) {
-        log(Output.OUT, "Undefined", EMPTY, logMessage);
+        log(Output.OUT, EMPTY, EMPTY, logMessage);
     }
 
     /**
@@ -117,7 +117,7 @@ public class EasyLog {
      * @param logMessage User customizable message
      */
     public static void log(String prefix, String logMessage) {
-        log(Output.OUT, "Undefined", prefix, logMessage);
+        log(Output.OUT, EMPTY, prefix, logMessage);
     }
 
     /**
@@ -125,7 +125,7 @@ public class EasyLog {
      * @param logMessage User customizable message
      */
     public static void logError(String logMessage) {
-        log(Output.ERR, "Undefined", EMPTY, logMessage);
+        log(Output.ERR, EMPTY, EMPTY, logMessage);
     }
 
     /**
@@ -134,10 +134,15 @@ public class EasyLog {
      * @param logMessage User customizable message
      */
     public static void logError(String prefix, String logMessage) {
-        log(Output.ERR, "Undefined", prefix, logMessage);
+        log(Output.ERR, EMPTY, prefix, logMessage);
     }
 
     private static void log(Output output, String location, String prefix, String message) {
-        output.output.println(Instant.now() + " | location:" + location.trim() + " | [" + prefix + "]--" + message);
+        StringBuilder builder = new StringBuilder();
+        builder.append(Instant.now()).append(" |");
+        if (Helper.notNullOrEmpty(location)) builder.append(" location:").append(location.trim()).append(" |");
+        if (Helper.notNullOrEmpty(prefix))   builder.append(" [").append(prefix).append("]");
+        builder.append(" ").append(message);
+        output.output.println(builder);
     }
 }
