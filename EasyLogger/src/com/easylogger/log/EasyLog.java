@@ -5,9 +5,6 @@ import java.time.Instant;
 public class EasyLog {
 
     private static final String EMPTY = "";
-    public static final Output INFO = Output.INFO;
-    public static final Output WARN = Output.WARN;
-    public static final Output ERR = Output.ERR;
 
     /**
      * Logs the current method and the prior calling method.
@@ -40,7 +37,7 @@ public class EasyLog {
      * Logs the current method and the prior calling method.
      * @param logMessage User customizable message
      */
-    public static void logErrBreadcrumbs(String logMessage) {
+    public static void logErrorBreadcrumbs(String logMessage) {
         logBreadcrumbs(Output.ERR, 1, EMPTY, logMessage);
     }
 
@@ -49,7 +46,7 @@ public class EasyLog {
      * @param depth The number of extra method names the user wishes to see
      * @param logMessage User customizable message
      */
-    public static void logErrBreadcrumbs(int depth, String logMessage) {
+    public static void logErrorBreadcrumbs(int depth, String logMessage) {
         logBreadcrumbs(Output.ERR, depth, EMPTY, logMessage);
     }
 
@@ -59,8 +56,35 @@ public class EasyLog {
      * @param prefix Tag for the log, useful for filtering
      * @param logMessage User customizable message
      */
-    public static void logErrBreadcrumbs(int depth, String prefix, String logMessage) {
+    public static void logErrorBreadcrumbs(int depth, String prefix, String logMessage) {
         logBreadcrumbs(Output.ERR, depth, prefix, logMessage);
+    }
+
+    /**
+     * Logs the current method and the prior calling method.
+     * @param logMessage User customizable message
+     */
+    public static void logWarnBreadcrumbs(String logMessage) {
+        logBreadcrumbs(Output.WARN, 1, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method and every calling method based on user input.
+     * @param depth The number of extra method names the user wishes to see
+     * @param logMessage User customizable message
+     */
+    public static void logWarnBreadcrumbs(int depth, String logMessage) {
+        logBreadcrumbs(Output.WARN, depth, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method and every calling method based on user input.
+     * @param depth The number of extra method names the user wishes to see
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void logWarnBreadcrumbs(int depth, String prefix, String logMessage) {
+        logBreadcrumbs(Output.WARN, depth, prefix, logMessage);
     }
 
     /**
@@ -113,6 +137,23 @@ public class EasyLog {
     }
 
     /**
+     * Logs the current method (System.err) as well as the log message.
+     * @param logMessage User customizable message
+     */
+    public static void logWarnWithLocation(String logMessage) {
+        log(Output.WARN, "@" + MethodHelper.higherMethodName(), EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method (System.err) as well as the log message.
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void logWarnWithLocation(String prefix, String logMessage) {
+        log(Output.WARN, "@" + MethodHelper.higherMethodName(), prefix, logMessage);
+    }
+
+    /**
      * Logs the user's message (System.out)
      * @param logMessage User customizable message
      */
@@ -146,9 +187,26 @@ public class EasyLog {
         log(Output.ERR, EMPTY, prefix, logMessage);
     }
 
+    /**
+     * Logs the user's message (System.err)
+     * @param logMessage User customizable message
+     */
+    public static void logWarn(String logMessage) {
+        log(Output.WARN, EMPTY, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the user's message (System.err)
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void logWarn(String prefix, String logMessage) {
+        log(Output.WARN, EMPTY, prefix, logMessage);
+    }
+
     private static void log(Output output, String location, String prefix, String message) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Instant.now()).append(" |");
+        builder.append(Instant.now()).append(" ").append(output.logOut).append("|");
         if (Helper.notNullOrEmpty(location)) builder.append(" location:").append(location.trim()).append(" |");
         if (Helper.notNullOrEmpty(prefix))   builder.append(" [").append(prefix).append("]");
         builder.append(" ").append(message);
