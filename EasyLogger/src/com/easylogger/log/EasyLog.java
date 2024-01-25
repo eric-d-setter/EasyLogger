@@ -37,6 +37,33 @@ public class EasyLog {
      * Logs the current method and the prior calling method.
      * @param logMessage User customizable message
      */
+    public static void logBreadcrumbs(CustomLevel customLevel, String logMessage) {
+        privLogBreadcrumbs(customLevel, 1, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method and every calling method based on user input.
+     * @param depth The number of extra method names the user wishes to see
+     * @param logMessage User customizable message
+     */
+    public static void logBreadcrumbs(CustomLevel customLevel, int depth, String logMessage) {
+        privLogBreadcrumbs(customLevel, depth, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method and every calling method based on user input.
+     * @param depth The number of extra method names the user wishes to see
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void logBreadcrumbs(CustomLevel customLevel, int depth, String prefix, String logMessage) {
+        privLogBreadcrumbs(customLevel, depth, prefix, logMessage);
+    }
+
+    /**
+     * Logs the current method and the prior calling method.
+     * @param logMessage User customizable message
+     */
     public static void logErrorBreadcrumbs(String logMessage) {
         logBreadcrumbs(Output.ERR, 1, EMPTY, logMessage);
     }
@@ -102,6 +129,14 @@ public class EasyLog {
         log(output, builder.toString(), prefix, logMessage);
     }
 
+    private static void privLogBreadcrumbs(CustomLevel customLevel, int depth, String prefix, String logMessage) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i <= depth; i++) {
+            builder.append("@" + MethodHelper.dynamicHigherMethodName(i + 1) + " "); // Increasing the depth because processing is in another method
+        }
+        log(customLevel, builder.toString(), prefix, logMessage);
+    }
+
     /**
      * Logs the current method (System.out) as well as the log message.
      * @param logMessage User customizable message
@@ -117,6 +152,23 @@ public class EasyLog {
      */
     public static void logWithLocation(String prefix, String logMessage) {
         log(Output.INFO, "@" + MethodHelper.higherMethodName(), prefix, logMessage);
+    }
+
+    /**
+     * Logs the current method (System.out) as well as the log message.
+     * @param logMessage User customizable message
+     */
+    public static void logWithLocation(CustomLevel customLevel, String logMessage) {
+        log(customLevel, "@" + MethodHelper.higherMethodName(), EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the current method (System.out) as well as the log message.
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void logWithLocation(CustomLevel customLevel, String prefix, String logMessage) {
+        log(customLevel, "@" + MethodHelper.higherMethodName(), prefix, logMessage);
     }
 
     /**
@@ -171,6 +223,24 @@ public class EasyLog {
     }
 
     /**
+     * Logs the user's message (System.out)
+     * @param logMessage User customizable message
+     */
+    public static void log(CustomLevel customLevel, String logMessage) {
+        log(customLevel, EMPTY, EMPTY, logMessage);
+    }
+
+    /**
+     * Logs the user's message (System.out)
+     * @param prefix Tag for the log, useful for filtering
+     * @param logMessage User customizable message
+     */
+    public static void log(CustomLevel customLevel, String prefix, String logMessage) {
+        log(customLevel, EMPTY, prefix, logMessage);
+    }
+
+
+    /**
      * Logs the user's message (System.err)
      * @param logMessage User customizable message
      */
@@ -211,5 +281,14 @@ public class EasyLog {
         if (Helper.notNullOrEmpty(prefix))   builder.append(" [").append(prefix).append("]");
         builder.append(" ").append(message);
         output.output.println(builder);
+    }
+
+    private static void log(CustomLevel customLevel, String location, String prefix, String message) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(Instant.now()).append(" ").append(customLevel.getLogDescriptor()).append("|");
+        if (Helper.notNullOrEmpty(location)) builder.append(" location:").append(location.trim()).append(" |");
+        if (Helper.notNullOrEmpty(prefix))   builder.append(" [").append(prefix).append("]");
+        builder.append(" ").append(message);
+        customLevel.getOutput().println(builder);
     }
 }
