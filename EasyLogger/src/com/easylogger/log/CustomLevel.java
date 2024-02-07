@@ -2,7 +2,7 @@ package com.easylogger.log;
 
 import java.io.PrintStream;
 
-public abstract class CustomLevel {
+public class CustomLevel {
     private final PrintStream output;
     private final String logDescriptor;
 

@@ -285,7 +285,7 @@ public class EasyLog {
 
     private static void log(CustomLevel customLevel, String location, String prefix, String message) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Instant.now()).append(" ").append(customLevel.getLogDescriptor()).append("|");
+        builder.append(Instant.now()).append(" ").append(customLevel.getLogDescriptor()).append(" |");
         if (Helper.notNullOrEmpty(location)) builder.append(" location:").append(location.trim()).append(" |");
         if (Helper.notNullOrEmpty(prefix))   builder.append(" [").append(prefix).append("]");
         builder.append(" ").append(message);
