@@ -32,6 +32,7 @@ The most basic of logs, will simply log your message at the point in the code wh
 Logs the method where the log method was called along with your message.
 
 `public static void logBreadcrumbs(String logMessage)`<br>
+`public static void logBreadcrumbs(int depth, String logMessage)`<br>
 `public static void logBreadcrumbs(int depth, String prefix, String logMessage)`<br>
 Logs the current method and every calling method based on the `depth`. By default, it will log the current method and the method that called the prior method. The depth parameter defines how many methods + the current method to log.
 <br>i.e. - `depth` == 2
@@ -40,9 +41,8 @@ Logs the current method and every calling method based on the `depth`. By defaul
 <br> ______|--->`MyClass.main()` depth: 2      
 
 There are 3 default log levels that you can log to: INFO, WARN, and ERROR. INFO and WARN write to System.out and ERROR writes to System.err. <br>
-Examples: `EasyLog.log() - EasyLog.logWithLocation()` `EasyLog.logWarn() - EasyLog.logWarnWithLocation()` `EasyLog.logError() - EasyLog.logErrorWithLocation()`<br>
-All logging methods follow these naming conventions so you should be able to extrapolate what each should do.
+Examples: `log() - logWithLocation() - logBreadcrumbs()` `logWarn() - logWarnWithLocation() - logWarnBreadcrumbs()` `logError() - logErrorWithLocation() - logErrorBreadcrumbs()`<br>
 
-There is also the ability to create custom log levels. Using the CustomLevel class you define the PrintStream where the logs should be written (such as System.out and System.err) and the descriptor for the level (such as INFO, WARN, ERROR). After creating an instance of CustomLevel, you can pass the instance as the first parameter into the basic log methods (e.g. `EasyLog.log() - EasyLog.logWithLocation()`).
+There is also the ability to create custom log levels. Using the [`CustomLevel`](https://github.com/eric-d-setter/EasyLogger/blob/main/EasyLogger/src/com/easylogger/log/CustomLevel.java) class you define the `PrintStream` where the logs should be written (such as System.out and System.err) and the descriptor for the level (such as INFO, WARN, ERROR). After creating an instance of [`CustomLevel`](https://github.com/eric-d-setter/EasyLogger/blob/main/EasyLogger/src/com/easylogger/log/CustomLevel.java), you can pass the instance as the first parameter into the basic log methods (i.e. `log() - logWithLocation() - logBreadcrumbs()`).
 
 CURRENTLY WIP BUT WILL BE ADDING MORE FEATURES
