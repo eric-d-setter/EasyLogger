@@ -38,7 +38,7 @@ Logs the current method and every calling method based on the `depth`. By defaul
 <br>i.e. - `depth` == 2
 <br>`MyClass.bar()` - depth: 0 <--- logBreadcrubs() called here
 <br> |--->`MyClass.foo()` - depth: 1
-<br> ______|--->`MyClass.main()` depth: 2      
+<br> ______|--->`MyClass.main()` - depth: 2      
 
 There are 3 default log levels that you can log to: INFO, WARN, and ERROR. INFO and WARN write to System.out and ERROR writes to System.err. <br>
 Examples: `log() - logWithLocation() - logBreadcrumbs()` `logWarn() - logWarnWithLocation() - logWarnBreadcrumbs()` `logError() - logErrorWithLocation() - logErrorBreadcrumbs()`<br>
