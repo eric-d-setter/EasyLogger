@@ -1,5 +1,7 @@
 # EasyLogger
-Did you ever find yourself using copious amounts of log statements in order to narrow in on that single pesky bug? Were you upset with how little information you were able to glean from your pages and pages of log lines? Well here's something that should help a little bit.
+Did you ever find yourself using copious amounts of log statements in order to narrow in on that single pesky bug? Were you upset with how little information you were able to glean from your pages and pages of log lines? Well here's something that should help a little bit. 
+
+Disclaimer: This is not meant for production level code in enterprise applications, rather for personal use. 
 
 Features:
 * A clean tool with limited requirements
@@ -44,5 +46,3 @@ There are 3 default log levels that you can log to: INFO, WARN, and ERROR. INFO 
 Examples: `log() - logWithLocation() - logBreadcrumbs()` `logWarn() - logWarnWithLocation() - logWarnBreadcrumbs()` `logError() - logErrorWithLocation() - logErrorBreadcrumbs()`<br>
 
 There is also the ability to create custom log levels. Using the [`CustomLevel`](https://github.com/eric-d-setter/EasyLogger/blob/main/EasyLogger/src/com/easylogger/log/CustomLevel.java) class you define the `PrintStream` where the logs should be written (such as System.out and System.err) and the descriptor for the level (such as INFO, WARN, ERROR). After creating an instance of [`CustomLevel`](https://github.com/eric-d-setter/EasyLogger/blob/main/EasyLogger/src/com/easylogger/log/CustomLevel.java), you can pass the instance as the first parameter into the basic log methods (i.e. `log() - logWithLocation() - logBreadcrumbs()`).
-
-CURRENTLY WIP BUT WILL BE ADDING MORE FEATURES
